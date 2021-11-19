@@ -1,0 +1,231 @@
+:root {
+  --speed: 1s;
+  --delay: 0s;
+  --border-radius: 50%;
+  --hue-offset: 30;
+  --hue-one: 180;
+  --hue-two: calc(var(--hue-one) + var(--hue-offset));
+  --opacity-start: 0.1;
+  --scale-from: 1;
+  --play-state: running;
+  --shape: 50deg;
+  --body-margin: 30px;
+  --spinner-size: 5;
+}
+
+body {
+  box-sizing: border-box;
+  background: #00001d;
+  color: var(--mid);
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  margin: var(--body-margin);
+  padding: 0;
+  height: auto;
+}
+
+h3 {
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--mid);
+  letter-spacing: 1px;
+  margin: 0 0 30px 0;
+}
+
+ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: calc(100vh - var(--body-margin) * 2)
+}
+
+.spinners {
+  --size: calc(var(--spinner-size) * 10vmin);
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: var(--size);
+  height: var(--size);
+  max-width: var(--size);
+  max-height: var(--size);
+}
+
+.conic-spinner.normal {
+  animation-direction: normal;
+}
+
+.conic-spinner.reverse {
+  animation-direction: reverse;
+}
+
+.conic-spinner {
+  background: conic-gradient( 
+    black 0deg var(--shape),
+    hsl(var(--hue-one), 50%, 50%) var(--shape) 180deg,
+    black calc(var(--shape) + 90deg) calc(var(--shape) + 180deg),
+    hsl(var(--hue-two), 50%, 50%) calc(var(--shape) + 180deg)
+  );
+  display: inline-block;
+  mix-blend-mode: screen;
+  border-radius: var(--border-radius);
+  width: calc(var(--spinner-size) * 1vmin);
+  height: calc(var(--spinner-size) * 1vmin);
+  animation: spin var(--speed) linear var(--delay) infinite;
+  animation-play-state: var(--play-state);
+}
+
+.conic-spinner.control {
+  width: var(--spinner-control-size);
+  height: var(--spinner-control-size);
+  --delay: 0s;
+  --opacity-start: 1;
+  --scale-from: 1;
+  margin-left: 10px;
+  margin-bottom: 1px;
+}
+
+.conic-spinner.control.speed,
+.conic-spinner.control.border-radius {
+  background: conic-gradient( 
+    black 0deg 90deg, 
+    var(--mid) 90deg 180deg, 
+    black 180deg 270deg,
+    var(--mid) 270deg
+  );
+}
+
+.conic-spinner.control.shape {
+  background: conic-gradient( 
+    black 0deg var(--shape),
+    var(--mid) var(--shape) 180deg, 
+    black calc(var(--shape) + 90deg) calc(var(--shape) + 180deg),
+    var(--mid) calc(var(--shape) + 180deg)
+  );
+}
+
+.conic-spinner.control.speed,
+.conic-spinner.control.colour,
+.conic-spinner.control.shape {
+  --border-radius: 50%;
+}
+
+.conic-spinner.control.colour,
+.conic-spinner.control.border-radius,
+.conic-spinner.control.shape {
+  --speed: 0s;
+}
+
+.conic-spinner.control.colour,
+.conic-spinner.control.border-radius,
+.conic-spinner.control.speed {
+  --shape: 90deg;
+}
+
+/* workaround for Safari which doesn't support conic-gradient() */
+@media not all and (min-resolution:.001dpcm){ 
+  @supports (-webkit-appearance:none) {
+    .conic-spinner {
+      background: radial-gradient(circle farthest-corner at 33% 33%, hsl(var(--hue-two), 50%, 50%) 0%, hsl(var(--hue-one), 50%, 50%) 80%);
+    }
+    .conic-spinner.control.speed,
+    .conic-spinner.control.border-radius {
+      background: radial-gradient(circle farthest-corner at 33% 33%, var(--light-mid) 0%, var(--deep) 80%);
+    }
+    ul.controls > li.hide-in-safari {
+      display: none;
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    opacity: var(--opacity-start);
+    transform: rotate(0deg) scale(var(--scale-from));
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(180deg) scale(1);
+  }
+  100% {
+    opacity: var(--opacity-start);
+    transform: rotate(360deg) scale(var(--scale-from));
+  }
+}
+
+/**************/
+/* Animations */
+/**************/
+
+.fade-in {
+  animation: fadeInAnimation ease-in 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards; 
+}
+
+@keyframes fadeInAnimation { 
+  0% { 
+    opacity: 0;
+  } 
+  100% { 
+    opacity: 1;
+  } 
+} 
+
+/**********/
+/* Layout */
+/**********/
+
+.m-r-3 {
+  margin-right: 3px;
+}
+
+.m-l-3 {
+  margin-left: 3px;
+}
+
+.m-r-5 {
+  margin-right: 5px;
+}
+
+.m-l-5 {
+  margin-left: 5px;
+}
+
+.m-l-10 {
+  margin-left: 10px;
+}
+
+.m-t-0 {
+  margin-top: 0;
+}
+
+.m-t-10 {
+  margin-top: 10px;
+}
+
+.m-t-20 {
+  margin-top: 20px;
+}
+
+.m-t-30 {
+  margin-top: 30px;
+}
+
+.m-t-40 {
+  margin-top: 40px;
+}
+
+.m-b-20 {
+  margin-bottom: 20px;
+}
+
+.m-b-30 {
+  margin-bottom: 30px;
+}
+
